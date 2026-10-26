@@ -147,14 +147,13 @@ def create_app(test_config=None):
             with open(schema_path, encoding="utf-8") as schema_file:
                 g.db.executescript(schema_file.read())
 
-            # Vercel's temporary SQLite fallback is only for keeping the public
-            # demo pages available when no hosted DATABASE_URL is configured.
-            # Seed the starter catalog once per warm function instance; use a
-            # hosted MySQL database for durable accounts, playlists and favorites.
-            if os.getenv("VERCEL") == "1" and not app.extensions.get("fallback_catalog_seeded"):
-                from seed_songs import seed
-                seed(app.config["DATABASE_URL"])
-                app.extensions["fallback_catalog_seeded"] = True
+        # Ensure the starter song catalog is added to whichever database is
+        # configured. A hosted MySQL database is required for persistent data;
+        # SQLite on Vercel is only a temporary demo fallback.
+        if not app.extensions.get("starter_catalog_seeded"):
+            from seed_songs import seed
+            seed(app.config["DATABASE_URL"])
+            app.extensions["starter_catalog_seeded"] = True
 
     @app.teardown_request
     def close_database(error=None):

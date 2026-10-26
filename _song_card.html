@@ -1,7 +1,7 @@
 <article class="song-card category-{{ song.time_category|lower|replace(' ', '-') }}">
   <a class="song-art {% if not song.cover_image_url %}art-fallback{% endif %}" href="{{ url_for('song_detail', song_id=song.song_id) }}" aria-label="Open {{ song.title }}">
     {% if song.cover_image_url %}<img src="{{ song.cover_image_url }}" alt="Cover art for {{ song.title }}" loading="lazy">{% else %}<span class="art-symbol">♫</span>{% endif %}
-    <span class="art-open">Open song ↗</span>
+    <span class="art-open">Song details ↗</span>
   </a>
   <div class="song-card-body">
     <div class="song-card-title"><h3><a href="{{ url_for('song_detail', song_id=song.song_id) }}">{{ song.title }}</a></h3>
@@ -10,8 +10,13 @@
     <p class="song-subtitle">{{ song.movie_name or 'Independent' }}{% if song.singer %}<span> · {{ song.singer }}</span>{% endif %}</p>
     <div class="tag-row"><span class="tag">{{ song.mood }}</span><span class="tag tag-time">{{ song.time_category }}</span><span class="tag tag-period">{{ song.period }}</span></div>
     <div class="card-actions">
-      {% if song.external_url %}<a class="button button-small button-quiet" href="{{ song.external_url }}" target="_blank" rel="noopener noreferrer">Listen at {{ song.provider or 'provider' }} ↗</a>{% else %}<span class="availability">No official link added yet</span>{% endif %}
+      {% if song.embed_url %}
+      <button class="button button-small inline-play-button" type="button" data-inline-play data-embed-url="{{ song.embed_url }}" data-song-title="{{ song.title }}" aria-expanded="false">▶ Play here</button>
+      {% else %}
+      <span class="availability">In-site player not available yet</span>
+      {% endif %}
       {% if current_user %}<details class="add-to-playlist"><summary class="button button-small button-outline">＋ Playlist</summary><form action="{{ url_for('add_song_to_playlist_quick', song_id=song.song_id) }}" method="post" class="quick-add"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><select name="playlist_id" aria-label="Choose playlist" required><option value="">Choose playlist</option>{% for playlist in user_playlists %}<option value="{{ playlist.playlist_id }}">{{ playlist.title }}</option>{% endfor %}</select><button class="button button-small" type="submit">Add</button></form></details>{% endif %}
     </div>
+    <div class="inline-player" data-inline-player hidden></div>
   </div>
 </article>

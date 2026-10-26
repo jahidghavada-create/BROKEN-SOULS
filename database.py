@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+import os
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -15,15 +16,30 @@ def _settings(database_url):
         return {"driver": "sqlite", "path": path}
     if parsed.scheme != "mysql":
         raise ValueError("DATABASE_URL must use mysql:// or sqlite://")
-    return {
+
+    host = parsed.hostname or "127.0.0.1"
+    use_ssl = (
+        os.getenv("DATABASE_SSL", "").strip().lower() in {"1", "true", "yes"}
+        or host.endswith(".tidbcloud.com")
+    )
+    settings = {
         "driver": "mysql",
-        "host": parsed.hostname or "127.0.0.1",
+        "host": host,
         "port": parsed.port or 3306,
         "user": unquote(parsed.username or ""),
         "password": unquote(parsed.password or ""),
         "database": unquote(parsed.path.lstrip("/")),
         "charset": "utf8mb4",
     }
+    if use_ssl:
+        # TiDB Cloud requires TLS. PyMySQL verifies the server certificate using
+        # the system trust store; optionally allow a CA certificate path.
+        ssl_options = {"check_hostname": True}
+        ca_path = os.getenv("DATABASE_SSL_CA", "").strip()
+        if ca_path:
+            ssl_options["ca"] = ca_path
+        settings["ssl"] = ssl_options
+    return settings
 
 
 def re_drive_path(path):
@@ -46,6 +62,9 @@ def connect(database_url):
         **{key: value for key, value in settings.items() if key != "driver"},
         cursorclass=DictCursor,
         autocommit=False,
+        connect_timeout=10,
+        read_timeout=20,
+        write_timeout=20,
     )
 
 

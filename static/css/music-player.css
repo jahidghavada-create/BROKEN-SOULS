@@ -1,0 +1,11 @@
+.inline-play-button { cursor: pointer; }
+.inline-player { margin-top: 1rem; width: 100%; overflow: hidden; border: 1px solid rgba(193,123,135,.28); background: #09090d; border-radius: 4px; }
+.inline-player[hidden] { display: none !important; }
+.inline-player iframe { display: block; width: 100%; min-height: 200px; aspect-ratio: 16 / 9; border: 0; background: #09090d; }
+.detail-inline-player iframe { min-height: 250px; }
+.song-card .inline-player { margin-top: 1rem; }
+.song-card .inline-player iframe { min-height: 200px; }
+@media (max-width: 620px) {
+  .inline-player iframe { min-height: 200px; }
+  .detail-inline-player iframe { min-height: 220px; }
+}

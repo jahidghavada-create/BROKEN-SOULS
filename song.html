@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ song.title }}{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/music-player.css') }}">
 <section class="section detail-section">
   <a class="back-link" href="{{ url_for('music') }}">← Back to the Music Room</a>
   <div class="song-detail panel">

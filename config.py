@@ -6,10 +6,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Keep a localhost default for local development only. Vercel must be configured
-# with a hosted DATABASE_URL instead of silently trying 127.0.0.1.
+# Local development uses MySQL on localhost. On Vercel, use DATABASE_URL
+# for a persistent hosted MySQL database. Until one is configured, use a
+# temporary SQLite database so the site can render instead of returning 500s.
 _local_database_url = "mysql://root:password@127.0.0.1:3306/broken_souls"
-_database_default = "" if os.getenv("VERCEL") == "1" else _local_database_url
+_vercel_database_fallback = "sqlite:////tmp/broken_souls.sqlite3"
+_database_default = (
+    _vercel_database_fallback
+    if os.getenv("VERCEL") == "1"
+    else _local_database_url
+)
 
 
 class Config:

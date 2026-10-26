@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Music Room{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/music-player.css') }}">
 <section class="page-hero music-hero">
   <p class="eyebrow">YOUR FEELINGS, IN A FREQUENCY</p><h1>The Music <em>Room.</em></h1>
   <p id="local-clock" data-timezone="{{ config.TIMEZONE }}" data-active="{{ active_category }}">{{ now.strftime('%A, %d %B') }} · <span>{{ now.strftime('%H:%M') }}</span> local time</p>

@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} · Not found{% endblock %}
+{% block content %}
+<section class="section error-section"><p class="eyebrow">A SMALL DETOUR</p><h1>{{ code }} <em>—</em></h1><p class="lead">{{ message }}</p><a class="button" href="{{ url_for('home') }}">Return home</a></section>
+{% endblock %}

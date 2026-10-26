@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{ playlist.title }}{% endblock %}
+{% block content %}
+<section class="section"><p class="eyebrow">SHARED SOUNDTRACK · READ ONLY</p><h1>{{ playlist.title }}</h1><p class="lead">{{ playlist.description or 'A playlist shared from BROKEN SOULS.' }}</p>
+  {% if songs %}<div class="song-grid">{% for song in songs %}{% include "_song_card.html" %}{% endfor %}</div>{% else %}<div class="empty-state"><h2>This playlist is waiting for its first song.</h2></div>{% endif %}
+</section>
+{% endblock %}

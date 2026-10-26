@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Healing Corner{% endblock %}
+{% block content %}
+<section class="page-hero compact-hero"><p class="eyebrow">NO TIMELINE. NO PRESSURE.</p><h1>The Healing <em>Corner.</em></h1><p class="lead">Not a cure or a diagnosis—just a gentle moment to check in with yourself.</p></section>
+<section class="section healing-layout">
+  <article class="prompt-card panel"><p class="eyebrow">TODAY'S REFLECTION</p><h2>“{{ prompt }}”</h2><p>You can sit with the question, write a private journal letter, or let it pass.</p><a class="text-link" href="{{ url_for('journal') }}">Write a private letter →</a></article>
+  <article class="panel"><p class="eyebrow">A SMALL REMINDER</p><h2>You do not have to solve everything today.</h2><p class="lead">Rest is allowed. Feelings can be real without being the whole story.</p></article>
+  <article class="panel mood-checkin"><p class="eyebrow">PRIVATE MOOD CHECK-IN</p><h2>How are you, right now?</h2><form method="post" class="form-stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Mood<select name="mood" required><option value="">Choose a mood</option>{% for mood in moods %}<option>{{ mood }}</option>{% endfor %}</select></label><label>A note (optional)<textarea name="note" rows="3" maxlength="500" placeholder="Anything you'd like to remember…"></textarea></label><button class="button">Save private check-in</button></form></article>
+  <article class="panel"><p class="eyebrow">YOUR RECENT CHECK-INS</p><h2>Notice the weather within.</h2>{% if mood_logs %}<ul class="simple-list">{% for log in mood_logs %}<li><b>{{ log.mood }}</b><span>{{ log.created_at }}</span>{% if log.note %}<p>{{ log.note }}</p>{% endif %}</li>{% endfor %}</ul>{% else %}<p class="muted">Your check-ins are private and only visible to you.</p>{% endif %}</article>
+</section>
+{% endblock %}

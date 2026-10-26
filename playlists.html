@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}My playlists{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="toolbar-row"><div><p class="eyebrow">A SOUNDTRACK THAT'S YOURS</p><h1>My <em>playlists.</em></h1></div><a class="button" href="{{ url_for('create_playlist') }}">＋ New playlist</a></div>
+  {% if playlists %}<div class="playlist-grid">{% for playlist in playlists %}<a class="playlist-card" href="{{ url_for('playlist_detail', playlist_id=playlist.playlist_id) }}"><div class="playlist-cover {% if playlist.cover_image_url %}has-cover{% endif %}">{% if playlist.cover_image_url %}<img src="{{ playlist.cover_image_url }}" alt="" loading="lazy">{% else %}♫{% endif %}</div><div><span class="eyebrow">{{ playlist.visibility|upper }} · {{ playlist.song_count }} SONGS</span><h2>{{ playlist.title }}</h2><p>{{ playlist.description or 'A collection for the feelings in between.' }}</p></div><span class="arrow">↗</span></a>{% endfor %}</div>
+  {% else %}<div class="empty-state"><span>♫</span><h2>Your songs, your order.</h2><p>Create a private playlist and add music from the library.</p><a class="button" href="{{ url_for('create_playlist') }}">Create your first playlist</a></div>{% endif %}
+</section>
+{% endblock %}

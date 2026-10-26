@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Create account' if mode == 'register' else 'Sign in' }}{% endblock %}
+{% block content %}
+<section class="section auth-section"><div class="auth-card panel">
+  <p class="eyebrow">{{ 'A PLACE TO BEGIN AGAIN' if mode == 'register' else 'WELCOME BACK' }}</p>
+  <h1>{{ 'Find your quiet corner.' if mode == 'register' else 'Come back to yourself.' }}</h1>
+  <form method="post" class="form-stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    {% if mode == 'register' %}<label>Username<input name="username" required minlength="3" maxlength="40" autocomplete="username"></label>{% endif %}
+    <label>Email<input type="email" name="email" required maxlength="254" autocomplete="email"></label>
+    <label>Password<input type="password" name="password" required {% if mode == 'register' %}minlength="10"{% endif %} autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}"></label>
+    <button class="button" type="submit">{{ 'Create account' if mode == 'register' else 'Sign in' }}</button>
+  </form>
+  <p class="auth-switch">{% if mode == 'register' %}Already have an account? <a href="{{ url_for('login') }}">Sign in</a>{% else %}New here? <a href="{{ url_for('register') }}">Create an account</a>{% endif %}</p>
+</div></section>
+{% endblock %}

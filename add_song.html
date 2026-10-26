@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Add a song{% endblock %}
+{% block content %}
+<section class="section narrow-section">
+  <p class="eyebrow">OFFICIAL LINKS ONLY</p><h1>Add a song <em>to the room.</em></h1>
+  <p class="lead">Paste a YouTube or Spotify URL. We never download commercial audio. If metadata can't be retrieved, fill in the details yourself.</p>
+  <form class="panel form-stack" method="post" action="{{ url_for('add_song') }}" id="add-song-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Official YouTube or Spotify link<input id="music-url" type="url" name="external_url" required maxlength="1000" value="{{ form.get('external_url','') }}" placeholder="https://open.spotify.com/track/…"></label>
+    <button class="button button-outline" type="button" id="fetch-metadata">Fetch song details</button><p id="metadata-status" class="form-hint" aria-live="polite"></p>
+    <div class="form-grid">
+      <label>Song title<input id="song-title" name="title" required maxlength="200" value="{{ form.get('title','') }}"></label>
+      <label>Movie / album<input id="movie-name" name="movie_name" maxlength="200" value="{{ form.get('movie_name','') }}"></label>
+      <label>Artist / singer<input id="singer" name="singer" maxlength="200" value="{{ form.get('singer','') }}"></label>
+      <label>Language<input name="language" maxlength="80" value="{{ form.get('language','Hindi') }}"></label>
+      <label>Mood<select name="mood" required><option value="">Choose a mood</option>{% for mood in moods %}<option>{{ mood }}</option>{% endfor %}</select></label>
+      <label>Time category<select name="time_category" required>{% for item in categories %}<option>{{ item }}</option>{% endfor %}</select></label>
+      <label>Period<select name="period" required><option>Day</option><option>Night</option><option>Quiet Hours</option></select></label>
+      <label>Cover image URL (optional)<input id="cover-url" type="url" name="cover_image_url" maxlength="1000" value="{{ form.get('cover_image_url','') }}" placeholder="https://…"></label>
+    </div>
+    <label>Where should it go?<select name="visibility"><option value="private">Only my collection</option><option value="public">Submit to public library for review</option></select></label>
+    <button class="button" type="submit">Save song</button>
+    <p class="form-hint">YouTube and Spotify are supported for validated embeds. External player behavior and availability are controlled by those providers.</p>
+  </form>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/add-song.js') }}" defer></script>{% endblock %}

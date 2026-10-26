@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Your profile{% endblock %}
+{% block content %}
+<section class="section">
+  <p class="eyebrow">YOUR SPACE</p><h1>Hello, <em>{{ current_user.username }}.</em></h1><p class="lead">A little room for the things that matter to you.</p>
+  <div class="profile-actions"><a class="button" href="{{ url_for('create_playlist') }}">＋ Create playlist</a><a class="button button-outline" href="{{ url_for('journal') }}">Write privately</a><a class="button button-outline" href="{{ url_for('healing') }}">Check in with yourself</a></div>
+  <div class="two-column">
+    <section><div class="toolbar-row"><h2>Your playlists</h2><a class="text-link" href="{{ url_for('playlists') }}">View all →</a></div>{% if playlists %}<div class="playlist-list">{% for playlist in playlists %}<a class="playlist-row" href="{{ url_for('playlist_detail', playlist_id=playlist.playlist_id) }}"><span class="playlist-icon">♫</span><span><b>{{ playlist.title }}</b><small>{{ playlist.visibility|capitalize }} playlist</small></span>→</a>{% endfor %}</div>{% else %}<p class="muted">Your next soundtrack is waiting to be made.</p>{% endif %}</section>
+    <section><h2>Favorite songs</h2>{% if favorites %}<ul class="simple-list">{% for song in favorites %}<li><a href="{{ url_for('song_detail', song_id=song.song_id) }}">{{ song.title }}</a><span>{{ song.movie_name or '' }}</span></li>{% endfor %}</ul>{% else %}<p class="muted">Save a song with the heart button and find it here.</p>{% endif %}</section>
+  </div>
+</section>
+{% endblock %}

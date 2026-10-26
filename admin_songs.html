@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Manage songs{% endblock %}
+{% block content %}
+<section class="section">
+  <a class="back-link" href="{{ url_for('admin_dashboard') }}">← Admin dashboard</a>
+  <div class="toolbar-row"><div><p class="eyebrow">CATALOGUE MANAGEMENT</p><h1>Song <em>library.</em></h1></div><a class="button" href="{{ url_for('admin_song_create') }}">＋ Add song</a></div>
+  <div class="table-wrap"><table class="admin-table"><thead><tr><th>Song</th><th>Movie</th><th>Mood</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+    {% for song in songs %}<tr><td>{{ song.title }}</td><td>{{ song.movie_name or '—' }}</td><td>{{ song.mood or '—' }}</td><td>{{ song.time_category or '—' }}</td><td>{{ song.approval_status }}</td><td><div class="inline-actions"><a class="text-link" href="{{ url_for('admin_song_edit', song_id=song.song_id) }}">Edit</a><form method="post" action="{{ url_for('admin_song_remove', song_id=song.song_id) }}" data-confirm="Remove this song from the public library?"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-link danger-link">Remove</button></form></div></td></tr>{% else %}<tr><td colspan="6">No songs yet.</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% endblock %}

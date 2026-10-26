@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Private journal{% endblock %}
+{% block content %}
+<section class="section">
+  <p class="eyebrow">ONLY YOU CAN READ THESE PAGES</p><h1>Your unspoken <em>words.</em></h1><p class="lead">A private place to write without needing to make it beautiful.</p>
+  <div class="two-column">
+    <section><h2>Write a new letter</h2><form method="post" class="panel form-stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Title<input name="title" required maxlength="200" placeholder="To the person I used to be…"></label><label>How are you feeling? <select name="mood"><option value="">Choose if you want</option>{% for mood in moods %}<option>{{ mood }}</option>{% endfor %}</select></label><label>Your letter<textarea name="content" required rows="10" maxlength="20000" placeholder="Start wherever you are…"></textarea></label><button class="button">Save privately</button></form></section>
+    <section><h2>Your pages</h2>{% if entries %}<div class="journal-list">{% for entry in entries %}<details class="journal-entry panel"><summary><span><b>{{ entry.title }}</b><small>{{ entry.created_at }}{% if entry.mood %} · {{ entry.mood }}{% endif %}</small></span><span>＋</span></summary><form method="post" action="{{ url_for('update_journal', entry_id=entry.entry_id) }}" class="form-stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Title<input name="title" required maxlength="200" value="{{ entry.title }}"></label><label>Letter<textarea name="content" required rows="8" maxlength="20000">{{ entry.content }}</textarea></label><label>Mood<input name="mood" maxlength="80" value="{{ entry.mood or '' }}"></label><button class="button button-small">Save changes</button></form><form method="post" action="{{ url_for('delete_journal', entry_id=entry.entry_id) }}" data-confirm="Permanently delete this letter?"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-link danger-link">Delete letter</button></form></details>{% endfor %}</div>{% else %}<p class="muted">Your words stay yours. This space is private by default.</p>{% endif %}</section>
+  </div>
+</section>
+{% endblock %}

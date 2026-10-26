@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Create a playlist{% endblock %}
+{% block content %}
+<section class="section narrow-section"><p class="eyebrow">MAKE IT YOURS</p><h1>Create a <em>playlist.</em></h1>
+  <form method="post" class="panel form-stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Playlist title<input name="title" required maxlength="120" placeholder="Songs for 2 AM"></label>
+    <label>Description<textarea name="description" maxlength="500" rows="3" placeholder="What does this collection hold?"></textarea></label>
+    <label>Cover image URL (optional)<input name="cover_image_url" type="url" maxlength="1000" placeholder="https://…"></label>
+    <div class="form-grid">
+      <label>Mood<select name="mood"><option value="">No mood</option>{% for mood in moods %}<option>{{ mood }}</option>{% endfor %}</select></label>
+      <label>Time category<select name="time_category"><option value="">Any time</option>{% for item in categories %}<option>{{ item }}</option>{% endfor %}</select></label>
+      <label>Period<select name="period"><option value="">Any period</option><option>Day</option><option>Night</option><option>Quiet Hours</option></select></label>
+      <label>Visibility<select name="visibility"><option value="private">Private (default)</option><option value="public">Public read-only share link</option></select></label>
+    </div>
+    <button class="button" type="submit">Create playlist</button>
+  </form>
+</section>
+{% endblock %}

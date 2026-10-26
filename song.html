@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ song.title }}{% endblock %}
+{% block content %}
+<section class="section detail-section">
+  <a class="back-link" href="{{ url_for('music') }}">← Back to the Music Room</a>
+  <div class="song-detail panel">
+    <div class="detail-art {% if not song.cover_image_url %}art-fallback{% endif %}">{% if song.cover_image_url %}<img src="{{ song.cover_image_url }}" alt="Cover art for {{ song.title }}" loading="lazy">{% else %}<span>♫</span>{% endif %}</div>
+    <div class="detail-copy"><p class="eyebrow">{{ song.movie_name or 'A song for this moment' }}</p><h1>{{ song.title }}</h1><p class="lead">{{ song.singer or 'Artist not verified' }}{% if song.language %} · {{ song.language }}{% endif %}</p>
+      <div class="tag-row">{% for assignment in assignments %}<span class="tag">{{ assignment.mood }}</span><span class="tag tag-time">{{ assignment.time_category }}</span><span class="tag tag-period">{{ assignment.period }}</span>{% endfor %}</div>
+      {% if song.embed_url %}<div class="embed-frame"><iframe src="{{ song.embed_url }}" title="Official {{ song.provider }} player for {{ song.title }}" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>{% endif %}
+      {% if song.external_url %}<a class="button" href="{{ song.external_url }}" target="_blank" rel="noopener noreferrer">Open on {{ song.provider or 'music provider' }} ↗</a>{% else %}<p class="availability">No official streaming link is available yet. We won't pretend this song is playing.</p>{% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

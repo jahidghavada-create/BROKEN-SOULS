@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}A place for the words you never said{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-content reveal">
+    <p class="eyebrow">FOR THE HEART THAT STILL FEELS</p>
+    <h1>BROKEN<br><em>SOULS.</em></h1>
+    <p class="hero-quote">“Some songs say what the heart cannot.”</p>
+    <p class="hero-support">A place for the words you never said and the songs that understand.</p>
+    <div class="hero-actions"><a class="button" href="{{ url_for('music') }}">Enter the Music Room <span>↗</span></a><a class="button button-outline" href="{{ url_for('journal') if current_user else url_for('register') }}">Write Your Unspoken Words</a></div>
+    <p class="hero-note">Take what you need. Leave what you’re ready to.</p>
+  </div>
+  <div class="hero-visual" aria-hidden="true"><span class="moon"></span><span class="light-orb orb-one"></span><span class="light-orb orb-two"></span><span class="light-orb orb-three"></span><span class="hero-silhouette"></span></div>
+  <a class="scroll-hint" href="#welcome">SCROLL TO FEEL <span>↓</span></a>
+</section>
+<section id="welcome" class="section welcome-section">
+  <div class="section-heading"><p class="eyebrow">YOU ARE NOT ALONE IN THIS</p><h2>Some nights need <em>a song.</em></h2><p>Browse by the hour, find the words that fit, or let your own story breathe.</p></div>
+  <div class="feature-grid">
+    <a class="feature-card" href="{{ url_for('music') }}"><span>♫</span><h3>The Music Room</h3><p>A thoughtful soundtrack for every hour and every feeling.</p></a>
+    <a class="feature-card" href="{{ url_for('heart_wall') }}"><span>♡</span><h3>The Heart Wall</h3><p>Anonymous stories, shared gently and read with kindness.</p></a>
+    <a class="feature-card" href="{{ url_for('journal') if current_user else url_for('register') }}"><span>✎</span><h3>Your private pages</h3><p>Write the letter you never had to send. It stays yours.</p></a>
+  </div>
+</section>
+{% if featured %}
+<section class="section section-muted">
+  <div class="section-heading"><p class="eyebrow">A FEW SONGS TO BEGIN</p><h2>For this <em>moment.</em></h2><a class="text-link" href="{{ url_for('music') }}">Explore all songs →</a></div>
+  <div class="song-grid">{% for song in featured %}{% include "_song_card.html" %}{% endfor %}</div>
+</section>
+{% endif %}
+<section class="closing-quote"><p>“Healing isn’t forgetting. Sometimes it’s learning to remember without breaking.”</p><a href="{{ url_for('healing') }}">Visit the Healing Corner →</a></section>
+{% endblock %}

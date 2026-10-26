@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit song' if song else 'Add song' }}{% endblock %}
+{% block content %}
+<section class="section narrow-section">
+  <a class="back-link" href="{{ url_for('admin_songs') }}">← Song library</a>
+  <p class="eyebrow">ADMIN METADATA</p><h1>{{ 'Edit song.' if song else 'Add a song.' }}</h1>
+  <form method="post" class="panel form-stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="form-grid">
+      <label>Title<input name="title" required maxlength="200" value="{{ song.title if song else '' }}"></label>
+      <label>Movie / album<input name="movie_name" maxlength="200" value="{{ song.movie_name if song else '' }}"></label>
+      <label>Singer / artist<input name="singer" maxlength="200" value="{{ song.singer if song else '' }}"></label>
+      <label>Language<input name="language" maxlength="80" value="{{ song.language if song else 'Hindi' }}"></label>
+      <label>Mood<select name="mood"><option value="">Choose a mood</option>{% for mood in moods %}<option {% if assignment and assignment.mood == mood %}selected{% endif %}>{{ mood }}</option>{% endfor %}</select></label>
+      <label>Time category<select name="time_category">{% for category in categories %}<option {% if assignment and assignment.time_category == category %}selected{% endif %}>{{ category }}</option>{% endfor %}</select></label>
+      <label>Period<select name="period">{% for period in ['Day','Night','Quiet Hours'] %}<option {% if assignment and assignment.period == period %}selected{% endif %}>{{ period }}</option>{% endfor %}</select></label>
+      <label>Cover image URL<input type="url" name="cover_image_url" maxlength="1000" value="{{ song.cover_image_url if song and song.cover_image_url else '' }}"></label>
+    </div>
+    <label>Official YouTube / Spotify link (optional)<input type="url" name="external_url" maxlength="1000" value="{{ song.external_url if song and song.external_url else '' }}" placeholder="https://…"></label>
+    <button class="button">{{ 'Save changes' if song else 'Add approved song' }}</button>
+  </form>
+</section>
+{% endblock %}

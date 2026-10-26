@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<section class="section narrow-section"><p class="eyebrow">WE'RE LISTENING</p><h1>Reach out <em>gently.</em></h1><p class="lead">For a concern about a story, song submission, or the site itself, send us a note.</p><form method="post" class="panel form-stack"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Your email<input name="email" type="email" required maxlength="254"></label><label>Message<textarea name="message" required maxlength="3000" rows="6"></textarea></label><button class="button">Send message</button><p class="form-hint">This demo confirms the message in your browser; configure a mail service before deploying publicly.</p></form></section>
+{% endblock %}

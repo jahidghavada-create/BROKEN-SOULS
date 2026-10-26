@@ -42,6 +42,23 @@ SONGS = [
     ("Tadap Tadap", "Hum Dil De Chuke Sanam", "Intense Heartbreak", "Midnight", "Night"),
 ]
 
+# Official music-label uploads checked for these tracks. The site embeds them;
+# it never downloads or re-hosts copyrighted audio.
+MUSIC_LINKS = {
+    ("Agar Tum Saath Ho", "Tamasha"): (
+        "https://www.youtube.com/watch?v=6SGRn9OHtFY",
+        "https://www.youtube-nocookie.com/embed/6SGRn9OHtFY",
+    ),
+    ("Tum Hi Ho", "Aashiqui 2"): (
+        "https://www.youtube.com/watch?v=WWZxDA81JFk",
+        "https://www.youtube-nocookie.com/embed/WWZxDA81JFk",
+    ),
+    ("Channa Mereya", "Ae Dil Hai Mushkil"): (
+        "https://www.youtube.com/watch?v=jglVv0JfZUc",
+        "https://www.youtube-nocookie.com/embed/jglVv0JfZUc",
+    ),
+}
+
 
 def seed(database_url):
     with transaction(database_url) as connection:
@@ -52,16 +69,31 @@ def seed(database_url):
                 "SELECT song_id FROM songs WHERE title = %s AND movie_name = %s LIMIT 1",
                 (title, movie),
             ).fetchone()
+            external_url, embed_url = MUSIC_LINKS.get((title, movie), (None, None))
             if row:
                 song_id = row["song_id"]
+                if external_url:
+                    execute(
+                        connection,
+                        database_url,
+                        """UPDATE songs SET provider = 'YouTube', external_url = %s,
+                           embed_url = %s, approval_status = 'approved'
+                           WHERE song_id = %s""",
+                        (external_url, embed_url, song_id),
+                    )
             else:
                 cursor = execute(
                     connection,
                     database_url,
                     """INSERT INTO songs
-                       (title, movie_name, singer, language, provider, approval_status)
-                       VALUES (%s, %s, NULL, 'Hindi', NULL, 'approved')""",
-                    (title, movie),
+                       (title, movie_name, singer, language, provider, external_url,
+                        embed_url, approval_status)
+                       VALUES (%s, %s, NULL, 'Hindi', %s, %s, %s, 'approved')""",
+                    (
+                        title, movie,
+                        'YouTube' if external_url else None,
+                        external_url, embed_url,
+                    ),
                 )
                 song_id = cursor.lastrowid
             insert_prefix = "INSERT OR IGNORE" if is_sqlite(database_url) else "INSERT IGNORE"

@@ -109,7 +109,7 @@ def parse_music_url(value):
 
 
 def create_app(test_config=None):
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder=".")
     app.config.from_object(Config)
     if test_config:
         app.config.update(test_config)

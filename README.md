@@ -175,3 +175,10 @@ Do not give admin access to an untrusted account. The admin dashboard is protect
 The contact form is a UI placeholder in this local build; configure a mail provider before relying on it to deliver messages. Use HTTPS, a production-grade secret, secure cookie settings, database backups, and operational rate limiting before public deployment.
 
 Set `SESSION_COOKIE_SECURE=1` when serving the app over HTTPS in production.
+
+
+## Local MP3 playback (licensed audio only)
+
+To play an MP3 directly on the website, place an MP3 file that you own or are licensed to distribute in `static/audio/`. Commit that file to the repository, then sign in with an admin account and open **Admin → Song library → Add a song**. In the URL/path field, enter a path such as `/static/audio/my-track.mp3`. Save the song and its card/detail page will show an in-page audio player.
+
+Use a simple filename containing letters, numbers, dots, underscores, or hyphens. Only MP3 paths under `/static/audio/` are accepted. Do not commit commercial songs unless you have the rights or permission to distribute them. Large audio files increase repository/deployment size; use an authorized audio host or object storage for larger catalogs.

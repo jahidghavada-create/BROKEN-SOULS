@@ -75,6 +75,18 @@ MUSIC_LINKS = {
         "https://www.youtube.com/watch?v=eHRrZ5DQCV4",
         "https://www.youtube-nocookie.com/embed/eHRrZ5DQCV4",
     ),
+    ("Bekhayali", "Kabir Singh"): (
+        "https://www.youtube.com/watch?v=VOLKJJvfAbg",
+        "https://www.youtube-nocookie.com/embed/VOLKJJvfAbg",
+    ),
+    ("Bhula Dena", "Aashiqui 2"): (
+        "https://www.youtube.com/watch?v=s0ksvPulHt8",
+        "https://www.youtube-nocookie.com/embed/s0ksvPulHt8",
+    ),
+    ("Tujhe Bhula Diya", "Anjaana Anjaani"): (
+        "https://www.youtube.com/watch?v=-Hb2DeHvvEg",
+        "https://www.youtube-nocookie.com/embed/-Hb2DeHvvEg",
+    ),
 }
 
 

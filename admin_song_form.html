@@ -16,7 +16,7 @@
       <label>Period<select name="period">{% for period in ['Day','Night','Quiet Hours'] %}<option {% if assignment and assignment.period == period %}selected{% endif %}>{{ period }}</option>{% endfor %}</select></label>
       <label>Cover image URL<input type="url" name="cover_image_url" maxlength="1000" value="{{ song.cover_image_url if song and song.cover_image_url else '' }}"></label>
     </div>
-    <label>Official YouTube / Spotify link (optional)<input type="url" name="external_url" maxlength="1000" value="{{ song.external_url if song and song.external_url else '' }}" placeholder="https://…"></label>
+    <label>Official YouTube / Spotify URL or local MP3 path (optional)<input name="external_url" maxlength="1000" value="{{ song.external_url if song and song.external_url else '' }}" placeholder="https://… or /static/audio/my-song.mp3"><span class="form-hint">For local playback, add an MP3 you own or are licensed to distribute inside static/audio/ and enter its path.</span></label>
     <button class="button">{{ 'Save changes' if song else 'Add approved song' }}</button>
   </form>
 </section>

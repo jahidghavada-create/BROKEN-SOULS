@@ -45,6 +45,8 @@ SONGS = [
 # Official music-label uploads checked for these tracks. The site embeds them;
 # it never downloads or re-hosts copyrighted audio.
 MUSIC_LINKS = {
+    # Official label uploads are embedded in the page; audio is not downloaded
+    # or re-hosted by this project.
     ("Agar Tum Saath Ho", "Tamasha"): (
         "https://www.youtube.com/watch?v=6SGRn9OHtFY",
         "https://www.youtube-nocookie.com/embed/6SGRn9OHtFY",
@@ -56,6 +58,22 @@ MUSIC_LINKS = {
     ("Channa Mereya", "Ae Dil Hai Mushkil"): (
         "https://www.youtube.com/watch?v=jglVv0JfZUc",
         "https://www.youtube-nocookie.com/embed/jglVv0JfZUc",
+    ),
+    ("Humnava", "Hamari Adhuri Kahani"): (
+        "https://www.youtube.com/watch?v=pP12RCC6Nss",
+        "https://www.youtube-nocookie.com/embed/pP12RCC6Nss",
+    ),
+    ("Tujhe Kitna Chahne Lage", "Kabir Singh"): (
+        "https://www.youtube.com/watch?v=AgX2II9si7w",
+        "https://www.youtube-nocookie.com/embed/AgX2II9si7w",
+    ),
+    ("Sunn Raha Hai (Male Version)", "Aashiqui 2"): (
+        "https://www.youtube.com/watch?v=z3UHfi9vpbc",
+        "https://www.youtube-nocookie.com/embed/z3UHfi9vpbc",
+    ),
+    ("Zaroorat", "Ek Villain"): (
+        "https://www.youtube.com/watch?v=eHRrZ5DQCV4",
+        "https://www.youtube-nocookie.com/embed/eHRrZ5DQCV4",
     ),
 }
 

@@ -10,7 +10,9 @@
     <p class="song-subtitle">{{ song.movie_name or 'Independent' }}{% if song.singer %}<span> · {{ song.singer }}</span>{% endif %}</p>
     <div class="tag-row"><span class="tag">{{ song.mood }}</span><span class="tag tag-time">{{ song.time_category }}</span><span class="tag tag-period">{{ song.period }}</span></div>
     <div class="card-actions">
-      {% if song.embed_url %}
+      {% if song.provider == 'Local MP3' and song.external_url %}
+      <audio class="local-audio-player" controls preload="none" aria-label="Play {{ song.title }}"><source src="{{ song.external_url }}" type="audio/mpeg">Your browser does not support audio playback.</audio>
+      {% elif song.embed_url %}
       <button class="button button-small inline-play-button" type="button" data-inline-play data-embed-url="{{ song.embed_url }}" data-song-title="{{ song.title }}" aria-expanded="false">▶ Play here</button>
       {% else %}
       <span class="availability">In-site player not available yet</span>

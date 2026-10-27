@@ -108,6 +108,16 @@ def parse_music_url(value):
     return None
 
 
+def parse_local_audio(value):
+    """Accept only MP3 files stored in this site's static/audio directory."""
+    value = (value or "").strip()
+    if not value:
+        return None
+    if re.fullmatch(r"/static/audio/[A-Za-z0-9][A-Za-z0-9._-]{0,180}\.mp3", value, re.IGNORECASE):
+        return {"provider": "Local MP3", "url": value, "embed": None}
+    return None
+
+
 def create_app(test_config=None):
     app = Flask(__name__, template_folder=".")
     app.config.from_object(Config)
@@ -979,7 +989,7 @@ def create_app(test_config=None):
             category = valid_choice(request.form.get("time_category"), CATEGORIES)
             period = valid_choice(request.form.get("period"), PERIODS[1:])
             external_url = request.form.get("external_url", "").strip()
-            target = parse_music_url(external_url) if external_url else None
+            target = (parse_music_url(external_url) or parse_local_audio(external_url)) if external_url else None
             cover_input = request.form.get("cover_image_url", "")
             cover = valid_image_url(cover_input)
             category_valid = (
@@ -990,7 +1000,7 @@ def create_app(test_config=None):
             if not title or not mood or not category_valid:
                 flash("Provide a title, a valid mood, and a matching category/period.", "error")
             elif external_url and not target:
-                flash("The link must be a validated YouTube or Spotify URL.", "error")
+                flash("Use a validated YouTube/Spotify URL or a local MP3 path under /static/audio/.", "error")
             elif cover_input.strip() and not cover:
                 flash("Cover image must be a valid HTTPS URL.", "error")
             else:
@@ -1034,7 +1044,7 @@ def create_app(test_config=None):
         if request.method == "POST":
             title = request.form.get("title", "").strip()[:200]
             external_url = request.form.get("external_url", "").strip()
-            target = parse_music_url(external_url) if external_url else None
+            target = (parse_music_url(external_url) or parse_local_audio(external_url)) if external_url else None
             cover_input = request.form.get("cover_image_url", "")
             cover = valid_image_url(cover_input)
             mood = valid_choice(request.form.get("mood"), MOODS)
